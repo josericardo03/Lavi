@@ -1,8 +1,9 @@
+// lavi/next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["via.placeholder.com"], // Permite imagens de via.placeholder.com
+    domains: ["localhost"], // Remova o http://
   },
   // Outras configurações do Next.js podem ir aqui, se necessário
 };
