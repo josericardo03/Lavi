@@ -80,7 +80,7 @@ const Galery = () => {
   };
 
   return (
-    <div className="md:p-10 max-w-5xl mx-auto">
+    <div className="md:p-10 max-w-7xl mx-auto">
       <h2 className="text-2xl font-bold mb-5">Nossa Galeria</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {currentPhotos.map((photo) => {

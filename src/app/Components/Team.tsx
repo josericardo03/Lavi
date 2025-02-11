@@ -16,22 +16,21 @@ interface TeamMember {
 }
 
 const Team = () => {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]); // Tipando o estado
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // Defina quantos membros você deseja exibir por página
+  const itemsPerPage = 8; // Alterado para 8 itens (2 linhas de 4)
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchAPI("/equipes?populate=*"); // Ajuste a rota conforme necessário
-      console.log(result); // Verifique a estrutura da resposta
-      setTeamMembers(result.data); // Acesse a propriedade 'data'
-      setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage)); // Calcule o total de páginas
+      const result = await fetchAPI("/equipes?populate=*");
+      console.log(result);
+      setTeamMembers(result.data);
+      setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage));
     };
     fetchData();
   }, []);
 
-  // Calcular os índices dos membros a serem exibidos na página atual
   const indexOfLastMember = currentPage * itemsPerPage;
   const indexOfFirstMember = indexOfLastMember - itemsPerPage;
   const currentMembers = teamMembers.slice(
@@ -40,28 +39,41 @@ const Team = () => {
   );
 
   return (
-    <div className="md:p-10 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-5">Nossa Equipe</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    <div className="md:p-10 max-w-7xl mx-auto">
+      {" "}
+      {/* Aumentado para max-w-7xl */}
+      <h2 className="text-2xl font-bold mb-8 text-center">Nossa Equipe</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {" "}
+        {/* Ajustado o grid e gap */}
         {currentMembers.map((member) => (
-          <div key={member.id} className="bg-white rounded-lg shadow-md p-5">
+          <div
+            key={member.id}
+            className="bg-white rounded-lg shadow-md p-5 flex flex-col h-full hover:shadow-lg transition-shadow"
+          >
             {member.foto && (
-              <Image
-                src={"http://localhost:1337" + member.foto.url} // Acesse a URL da imagem
-                alt={member.nome}
-                width={400}
-                height={300}
-                className="rounded-full mb-3"
-              />
+              <div className="relative w-full pb-[100%] mb-4">
+                {" "}
+                {/* Container para manter aspect-ratio */}
+                <Image
+                  src={"http://localhost:1337" + member.foto.url}
+                  alt={member.nome}
+                  fill
+                  className="rounded-lg object-cover absolute"
+                />
+              </div>
             )}
-            <h3 className="text-lg font-bold">{member.nome}</h3>
-            <p className="text-sm text-gray-600">{member.tipo}</p>
-            <p className="text-sm">{member.descricao}</p>
-            <p className="text-sm text-blue-500">{member.email}</p>
+            <div className="flex-grow">
+              <h3 className="text-lg font-bold mb-2">{member.nome}</h3>
+              <p className="text-sm text-gray-600 mb-2">{member.tipo}</p>
+              <p className="text-sm mb-3 line-clamp-3 hover:line-clamp-none">
+                {member.descricao}
+              </p>
+              <p className="text-sm text-blue-500">{member.email}</p>
+            </div>
           </div>
         ))}
       </div>
-
       {/*  Paginação */}
       <div className="flex items-center justify-center gap-4 mt-8">
         <button

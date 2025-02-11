@@ -36,7 +36,7 @@ export default function RootLayout({
         {/* Footer com altura fixa */}
 
         <div className="flex justify-center w-full">
-          <div className="bg-gray-800 max-w-5xl w-full">
+          <div className=" bg-green-700 max-w-7xl w-full">
             <div className="px-4 sm:px-6 lg:px-8">
               <Footer />
             </div>

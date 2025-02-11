@@ -21,7 +21,7 @@ export default function Legislation() {
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(0);
 
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     async function fetchLegislations() {
@@ -64,7 +64,7 @@ export default function Legislation() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 mt-5 gap-5 max-w-5xl mx-auto px-2">
+    <div className="grid grid-cols-1 md:grid-cols-1 mt-5 gap-5 max-w-7xl mx-auto px-2">
       {currentItems.map((leis) => (
         <div key={leis.id} className="bg-white rounded-lg shadow-md">
           <h3 className="text-lg font-bold mb-2 p-4">{leis.title}</h3>

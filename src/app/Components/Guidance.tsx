@@ -57,7 +57,7 @@ export default function Guidance() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 mt-5 gap-5 max-w-5xl mx-auto px-2">
+    <div className="grid grid-cols-1 md:grid-cols-1 mt-5 gap-5 max-w-7xl mx-auto px-2">
       {currentItems.map((art) => (
         <div key={art.id} className="bg-white rounded-lg shadow-md">
           <h3 className="text-lg font-bold mb-2 p-4">{art.title}</h3>
