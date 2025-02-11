@@ -18,12 +18,30 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className} >
-        <MenuResponsivo />
-        
-        <main>{children}</main>  
-        <div className="bottom-0"> <Footer /></div>     
-       
+      <body className={`flex flex-col min-h-screen ${inter.className}`}>
+        {/* Navbar solta no topo */}
+        <nav className="w-full bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <MenuResponsivo />
+          </div>
+        </nav>
+
+        {/* Conteúdo principal */}
+        <main className="flex-grow w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {children}
+          </div>
+        </main>
+
+        {/* Footer com altura fixa */}
+
+        <div className="flex justify-center w-full">
+          <div className="bg-gray-800 max-w-5xl w-full">
+            <div className="px-4 sm:px-6 lg:px-8">
+              <Footer />
+            </div>
+          </div>
+        </div>
       </body>
     </html>
   );
