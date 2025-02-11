@@ -62,32 +62,72 @@ const Team = () => {
         ))}
       </div>
 
-      {/* Paginação */}
-      <div className="flex justify-between mt-5">
+      {/*  Paginação */}
+      <div className="flex items-center justify-center gap-4 mt-8">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`px-4 py-2 ${
-            currentPage === 1 ? "bg-gray-300" : "bg-blue-500 hover:bg-blue-600"
-          } text-white rounded-l transition duration-200`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+            currentPage === 1
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-200 hover:border-purple-300"
+          }`}
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
           Anterior
         </button>
-        <span className="px-4 py-2 flex items-center text-lg font-semibold">
-          {`Página ${currentPage} de ${totalPages}`}
-        </span>
+
+        <div className="flex items-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-10 h-10 rounded-full transition-all duration-200 ${
+                currentPage === page
+                  ? "bg-purple-600 text-white"
+                  : "bg-white text-purple-600 hover:bg-purple-50 border border-purple-200 hover:border-purple-300"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+
         <button
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
             currentPage === totalPages
-              ? "bg-gray-300"
-              : "bg-blue-500 hover:bg-blue-600"
-          } text-white rounded-r transition duration-200`}
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-200 hover:border-purple-300"
+          }`}
         >
           Próxima
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
         </button>
       </div>
     </div>

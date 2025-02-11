@@ -44,14 +44,17 @@ const Galery = () => {
     const fetchData = async () => {
       try {
         const result = await fetchAPI("/galerys?populate=*"); // Ajuste a rota conforme necessário
-        console.log("-------")
+        console.log("-------");
         console.log(result); // Verifique a estrutura da resposta
-        
+
         if (result?.data && Array.isArray(result.data)) {
           setPhotos(result.data);
           setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage)); // Calcule o total de páginas
         } else {
-          console.error("Dados recebidos não estão no formato esperado:", result);
+          console.error(
+            "Dados recebidos não estão no formato esperado:",
+            result
+          );
           setPhotos([]); // Garante que `photos` será um array vazio em caso de erro
         }
       } catch (error) {
@@ -59,7 +62,7 @@ const Galery = () => {
         setPhotos([]); // Garante que o estado não fica indefinido em caso de erro
       }
     };
-    
+
     fetchData();
   }, []);
 
@@ -83,12 +86,12 @@ const Galery = () => {
         {currentPhotos.map((photo) => {
           // Pega a URL da imagem a partir de 'photo.Images.url'
           const imageUrl = photo.Images?.formats?.small?.url
-  ? `http://localhost:1337${photo.Images.formats.small.url}` // Corrigido para concatenar sem as aspas extras
-  : `http://localhost:1337${photo.Images.url}`;
+            ? `http://localhost:1337${photo.Images.formats.small.url}` // Corrigido para concatenar sem as aspas extras
+            : `http://localhost:1337${photo.Images.url}`;
 
           return (
-            <div 
-              key={photo.id} 
+            <div
+              key={photo.id}
               className="bg-white rounded-lg shadow-md p-5 cursor-pointer"
               onClick={() => handlePhotoClick(photo)}
             >
@@ -107,32 +110,72 @@ const Galery = () => {
         })}
       </div>
 
-      {/* Paginação */}
-      <div className="flex justify-between mt-5">
+      {/*  Paginação */}
+      <div className="flex items-center justify-center gap-4 mt-8">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`px-4 py-2 ${
-            currentPage === 1 ? "bg-gray-300" : "bg-blue-500 hover:bg-blue-600"
-          } text-white rounded-l transition duration-200`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+            currentPage === 1
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-200 hover:border-purple-300"
+          }`}
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
           Anterior
         </button>
-        <span className="px-4 py-2 flex items-center text-lg font-semibold">
-          {`Página ${currentPage} de ${totalPages}`}
-        </span>
+
+        <div className="flex items-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-10 h-10 rounded-full transition-all duration-200 ${
+                currentPage === page
+                  ? "bg-purple-600 text-white"
+                  : "bg-white text-purple-600 hover:bg-purple-50 border border-purple-200 hover:border-purple-300"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+
         <button
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
             currentPage === totalPages
-              ? "bg-gray-300"
-              : "bg-blue-500 hover:bg-blue-600"
-          } text-white rounded-r transition duration-200`}
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-200 hover:border-purple-300"
+          }`}
         >
           Próxima
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
         </button>
       </div>
 
@@ -148,8 +191,12 @@ const Galery = () => {
               height={600}
               className="rounded-lg mb-4"
             />
-            <p className="text-sm text-gray-600 mb-2">{selectedPhoto.Descricao}</p>
-            <p className="text-sm text-blue-500 mb-4">Data: {selectedPhoto.Date}</p>
+            <p className="text-sm text-gray-600 mb-2">
+              {selectedPhoto.Descricao}
+            </p>
+            <p className="text-sm text-blue-500 mb-4">
+              Data: {selectedPhoto.Date}
+            </p>
             <button
               onClick={closeModal}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"

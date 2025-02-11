@@ -18,10 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>
+      <body className={inter.className} >
         <MenuResponsivo />
-        <main>{children}</main>
-        <Footer />
+        
+        <main>{children}</main>  
+        <div className="bottom-0"> <Footer /></div>     
+       
       </body>
     </html>
   );
