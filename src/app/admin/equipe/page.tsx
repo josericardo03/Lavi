@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Equipe } from "@/types/database";
 import Link from "next/link";
+import ImageUpload from "@/app/Components/ImageUpload";
 
 export default function AdminEquipe() {
   const [membros, setMembros] = useState<Equipe[]>([]);
@@ -195,16 +196,12 @@ export default function AdminEquipe() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  URL da Foto
-                </label>
-                <input
-                  type="url"
-                  value={formData.foto}
-                  onChange={(e) =>
-                    setFormData({ ...formData, foto: e.target.value })
+                <ImageUpload
+                  onImageUpload={(imageUrl) =>
+                    setFormData((prev) => ({ ...prev, foto: imageUrl }))
                   }
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  currentImageUrl={formData.foto}
+                  label="Foto do Membro"
                 />
               </div>
 

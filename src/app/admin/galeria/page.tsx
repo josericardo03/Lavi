@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Galeria } from "@/types/database";
 import Link from "next/link";
+import ImageUpload from "@/app/Components/ImageUpload";
 
 export default function AdminGaleria() {
   const [imagens, setImagens] = useState<Galeria[]>([]);
@@ -180,17 +181,13 @@ export default function AdminGaleria() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  URL da Imagem *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={formData.imageUrl}
-                  onChange={(e) =>
-                    setFormData({ ...formData, imageUrl: e.target.value })
+                <ImageUpload
+                  onImageUpload={(imageUrl) =>
+                    setFormData((prev) => ({ ...prev, imageUrl }))
                   }
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  currentImageUrl={formData.imageUrl}
+                  label="Imagem da Galeria"
+                  required={true}
                 />
               </div>
 
