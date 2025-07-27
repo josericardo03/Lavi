@@ -1,0 +1,109 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Equipe {
+  id          String   @id @default(cuid())
+  nome        String
+  descricao   String?
+  tipo        String?
+  email       String?
+  foto        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("equipe")
+}
+
+model Galeria {
+  id          String   @id @default(cuid())
+  title       String
+  descricao   String?
+  date        DateTime?
+  imageUrl    String?
+  imageAlt    String?
+  imageWidth  Int?
+  imageHeight Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("galeria")
+}
+
+model Legislacao {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  links     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("legislacao")
+}
+
+model Orientacao {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  links     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("orientacao")
+}
+
+model Artefatos {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  links     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("artefatos")
+}
+
+model Contatos {
+  id        String   @id @default(cuid())
+  nome      String
+  email     String
+  assunto   String?
+  descricao String?
+  status    String   @default("novo")
+  createdAt DateTime @default(now())
+
+  @@map("contatos")
+}
+
+model Usuarios {
+  id         String   @id @default(cuid())
+  nome       String
+  email      String   @unique
+  senhaHash  String
+  role       String   @default("admin")
+  ativo      Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("usuarios")
+}
+
+model Uploads {
+  id            String   @id @default(cuid())
+  nomeOriginal  String
+  nomeArquivo   String
+  caminho       String
+  tipo          String?
+  tamanho       Int?
+  mimeType      String?
+  createdAt     DateTime @default(now())
+
+  @@map("uploads")
+} 
