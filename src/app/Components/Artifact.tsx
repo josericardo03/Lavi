@@ -1,14 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchAPI } from "@/app/lib/strapi";
+import { Artefatos } from "@/types/database";
 
 // Interface para os artefatos
 interface Artifact {
-  id: number;
-  documentId: string;
+  id: string;
   title: string;
-  content: string;
-  links: string;
+  content?: string;
+  links?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default function Artifact() {
@@ -20,17 +21,23 @@ export default function Artifact() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await fetchAPI("/artifacts");
-        console.log(result); // Log para verificar a estrutura da resposta
+        const response = await fetch("/api/admin/artefatos");
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result); // Log para verificar a estrutura da resposta
 
-        if (result?.data && Array.isArray(result.data)) {
-          setArtifacts(result.data);
-          setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage));
+          if (Array.isArray(result)) {
+            setArtifacts(result);
+            setTotalPages(Math.ceil(result.length / itemsPerPage));
+          } else {
+            console.error(
+              "Dados recebidos não estão no formato esperado:",
+              result
+            );
+            setArtifacts([]);
+          }
         } else {
-          console.error(
-            "Dados recebidos não estão no formato esperado:",
-            result
-          );
+          console.error("Erro ao buscar artefatos");
           setArtifacts([]);
         }
       } catch (error) {
@@ -48,7 +55,7 @@ export default function Artifact() {
   const currentItems = artifacts.slice(indexOfFirstItem, indexOfLastItem);
 
   // Função para processar links
-  const processLinks = (linksString: string) => {
+  const processLinks = (linksString?: string) => {
     return linksString
       ? linksString.split(",").map((link) => ({
           titulo: new URL(link.trim()).hostname,

@@ -1,18 +1,18 @@
-"use client"; // Adicione isso se estiver usando o Next.js com componentes de cliente
+"use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { fetchAPI } from "@/app/lib/strapi"; // Importando a função fetchAPI
+import { Equipe } from "@/types/database";
 
 // Definindo a interface para um membro da equipe
 interface TeamMember {
-  id: number;
+  id: string;
   nome: string;
-  descricao: string;
-  tipo: string;
-  email: string;
-  foto?: {
-    url: string; // URL da imagem, se aplicável
-  };
+  descricao?: string;
+  tipo?: string;
+  email?: string;
+  foto?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const Team = () => {
@@ -23,10 +23,19 @@ const Team = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchAPI("/equipes?populate=*");
-      console.log(result);
-      setTeamMembers(result.data);
-      setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage));
+      try {
+        const response = await fetch("/api/admin/equipe");
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          setTeamMembers(result);
+          setTotalPages(Math.ceil(result.length / itemsPerPage));
+        } else {
+          console.error("Erro ao buscar dados da equipe");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados da equipe:", error);
+      }
     };
     fetchData();
   }, []);
@@ -53,10 +62,9 @@ const Team = () => {
           >
             {member.foto && (
               <div className="relative w-full pb-[100%] mb-4">
-                {" "}
                 {/* Container para manter aspect-ratio */}
                 <Image
-                  src={"http://localhost:1337" + member.foto.url}
+                  src={member.foto}
                   alt={member.nome}
                   fill
                   className="rounded-lg object-cover absolute"

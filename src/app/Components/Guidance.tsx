@@ -1,13 +1,14 @@
-"use client"; // Adicione isso se estiver usando o Next.js com componentes de cliente
+"use client";
 import { useState, useEffect } from "react";
-import { fetchAPI } from "@/app/lib/strapi";
+import { Orientacao } from "@/types/database";
 
 interface Guidance {
-  id: number;
-  documentId: string;
+  id: string;
   title: string;
-  content: string;
-  links: string;
+  content?: string;
+  links?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default function Guidance() {
@@ -19,17 +20,23 @@ export default function Guidance() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await fetchAPI("/guidances");
-        console.log(result); // Log para verificar a estrutura da resposta
+        const response = await fetch("/api/admin/orientacao");
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result); // Log para verificar a estrutura da resposta
 
-        if (result?.data && Array.isArray(result.data)) {
-          setGuidances(result.data);
-          setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage));
+          if (Array.isArray(result)) {
+            setGuidances(result);
+            setTotalPages(Math.ceil(result.length / itemsPerPage));
+          } else {
+            console.error(
+              "Dados recebidos não estão no formato esperado:",
+              result
+            );
+            setGuidances([]);
+          }
         } else {
-          console.error(
-            "Dados recebidos não estão no formato esperado:",
-            result
-          );
+          console.error("Erro ao buscar orientações");
           setGuidances([]);
         }
       } catch (error) {
@@ -47,7 +54,7 @@ export default function Guidance() {
   const currentItems = guidances.slice(indexOfFirstItem, indexOfLastItem);
 
   // Função para processar links
-  const processLinks = (linksString: string) => {
+  const processLinks = (linksString?: string) => {
     return linksString
       ? linksString.split(",").map((link) => ({
           titulo: new URL(link.trim()).hostname,

@@ -1,17 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchAPI } from "@/app/lib/strapi"; // Importando a função fetchAPI
+import { Legislacao } from "@/types/database";
 
-// Define interface for Legislation data from Strapi
+// Define interface for Legislation data
 interface LegislationData {
-  id: number;
-  documentId: string;
+  id: string;
   title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  links: string; // Changed from complex object to simple string
+  content?: string;
+  links?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default function Legislation() {
@@ -27,11 +25,16 @@ export default function Legislation() {
     async function fetchLegislations() {
       try {
         setIsLoading(true);
-        const result = await fetchAPI("/legislations");
-        console.log(result); // Log para verificar a estrutura da resposta
+        const response = await fetch("/api/admin/legislacao");
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result); // Log para verificar a estrutura da resposta
 
-        setLegislations(result.data);
-        setTotalPages(Math.ceil(result.meta.pagination.total / itemsPerPage));
+          setLegislations(result);
+          setTotalPages(Math.ceil(result.length / itemsPerPage));
+        } else {
+          throw new Error("Erro ao buscar legislações");
+        }
         setIsLoading(false);
       } catch (err) {
         console.error("Erro ao buscar legislações:", err);
