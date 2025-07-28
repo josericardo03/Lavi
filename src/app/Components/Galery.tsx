@@ -81,13 +81,14 @@ const Galery = () => {
               onClick={() => handlePhotoClick(photo)}
             >
               {photo.imageUrl && (
-                <Image
-                  src={photo.imageUrl}
-                  alt={photo.imageAlt || photo.title}
-                  width={400}
-                  height={300}
-                  className="rounded-lg mb-3"
-                />
+                <div className="relative w-full pb-[75%] mb-3">
+                  <Image
+                    src={photo.imageUrl}
+                    alt={photo.imageAlt || photo.title}
+                    fill
+                    className="rounded-lg object-cover"
+                  />
+                </div>
               )}
               <h3 className="text-lg font-bold">{photo.title}</h3>
               {photo.descricao && (
@@ -174,34 +175,77 @@ const Galery = () => {
 
       {/* Modal para exibir a foto em detalhes */}
       {selectedPhoto && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
-          <div className="bg-white p-5 rounded-lg max-w-xl w-full">
-            <h3 className="text-xl font-bold mb-4">{selectedPhoto.title}</h3>
-            {selectedPhoto.imageUrl && (
-              <Image
-                src={selectedPhoto.imageUrl}
-                alt={selectedPhoto.imageAlt || selectedPhoto.title}
-                width={800}
-                height={600}
-                className="rounded-lg mb-4"
-              />
-            )}
-            {selectedPhoto.descricao && (
-              <p className="text-sm text-gray-600 mb-2">
-                {selectedPhoto.descricao}
-              </p>
-            )}
-            {selectedPhoto.date && (
-              <p className="text-sm text-blue-500 mb-4">
-                Data: {new Date(selectedPhoto.date).toLocaleDateString("pt-BR")}
-              </p>
-            )}
-            <button
-              onClick={closeModal}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
-            >
-              Fechar
-            </button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-4 sm:p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 pr-4">
+                  {selectedPhoto.title}
+                </h3>
+                <button
+                  onClick={closeModal}
+                  className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              {selectedPhoto.imageUrl && (
+                <div className="mb-4">
+                  <Image
+                    src={selectedPhoto.imageUrl}
+                    alt={selectedPhoto.imageAlt || selectedPhoto.title}
+                    width={1920}
+                    height={1080}
+                    className="w-full h-auto rounded-lg object-contain max-h-[60vh]"
+                    style={{ maxWidth: "100%" }}
+                  />
+                </div>
+              )}
+
+              <div className="space-y-3">
+                {selectedPhoto.descricao && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-1">
+                      Descrição:
+                    </h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {selectedPhoto.descricao}
+                    </p>
+                  </div>
+                )}
+
+                {selectedPhoto.date && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-1">Data:</h4>
+                    <p className="text-sm text-blue-500">
+                      {new Date(selectedPhoto.date).toLocaleDateString("pt-BR")}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 text-sm sm:text-base"
+                >
+                  Fechar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
