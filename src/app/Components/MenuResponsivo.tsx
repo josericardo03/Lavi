@@ -111,10 +111,10 @@ export function MenuResponsivo() {
                 </li>
                 <li>
                   <a
-                    href="http://localhost:3000/Formulario"
+                    href="http://localhost:3000/contato"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
-                    Formulario
+                    Contato
                   </a>
                 </li>
               </ul>
