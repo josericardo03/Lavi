@@ -15,25 +15,28 @@ export const Footer = () => {
             Lavi
           </a>
         </span>
-        <ul className="flex items-center gap-8 text-sm font-medium text-white">
+        <ul className="flex items-center gap-6 text-sm font-medium text-white">
           <li>
-            <a href="#" className="hover:underline">
-              About
-            </a>
+            <Link href="/Equipe" className="hover:underline transition-colors">
+              Equipe
+            </Link>
           </li>
           <li>
-            <a href="#" className="hover:underline">
-              Privacy Policy
-            </a>
+            <Link href="/Galeria" className="hover:underline transition-colors">
+              Galeria
+            </Link>
           </li>
           <li>
-            <a href="#" className="hover:underline">
-              Licensing
-            </a>
+            <Link href="/contato" className="hover:underline transition-colors">
+              Contato
+            </Link>
           </li>
           <li>
-            <a href="#" className="hover:underline">
-              Contact
+            <a
+              href="mailto:lavi.ic.ufmt@gmail.com"
+              className="hover:underline transition-colors"
+            >
+              Email
             </a>
           </li>
         </ul>

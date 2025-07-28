@@ -14,17 +14,17 @@ export function MenuResponsivo() {
   return (
     <>
       <header className=" shadow-lg max-w-7xl mx-auto mt-10 ">
-        <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+        <nav className="bg-gradient-to-r from-blue-300 to-pink-300 px-4 lg:px-6 py-2.5 rounded-lg">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-            <Link href="/" className="font-bold text-3xl">
-              La<span className=" text-green-700">Vi</span>
+            <Link href="/" className="font-bold text-3xl text-white">
+              La<span className="text-white">Vi</span>
             </Link>
 
             <div className="flex items-center lg:order-2">
               <button
                 onClick={toggleMenu}
                 type="button"
-                className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className="inline-flex items-center p-2 ml-1 text-sm text-white rounded-lg lg:hidden hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/30"
               >
                 <span className="sr-only">Open main menu</span>
                 <svg
@@ -63,7 +63,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="#"
-                    className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
+                    className="block py-2 pr-4 pl-3 text-white rounded bg-white/20 lg:bg-transparent lg:text-white lg:p-0"
                     aria-current="page"
                   >
                     Home
@@ -72,7 +72,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="http://localhost:3000/Equipe"
-                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Equipe
                   </a>
@@ -80,7 +80,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="http://localhost:3000/Legislacao"
-                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Legislação
                   </a>
@@ -88,7 +88,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="http://localhost:3000/Orientacao"
-                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Orientações
                   </a>
@@ -96,7 +96,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="http://localhost:3000/Artefatos"
-                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Artefatos
                   </a>
@@ -104,7 +104,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="http://localhost:3000/Galeria"
-                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Galeria
                   </a>
@@ -112,7 +112,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="http://localhost:3000/Formulario"
-                    className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Formulario
                   </a>

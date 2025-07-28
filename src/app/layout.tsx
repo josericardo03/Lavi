@@ -19,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`flex flex-col min-h-screen ${inter.className}`}>
-        {/* Navbar solta no topo */}
+        {/* Navbar com fundo branco */}
         <nav className="w-full bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <MenuResponsivo />
           </div>
         </nav>
@@ -33,10 +33,10 @@ export default function RootLayout({
           </div>
         </main>
 
-        {/* Footer com altura fixa */}
+        {/* Footer com degradê azul para rosa */}
 
         <div className="flex justify-center w-full">
-          <div className=" bg-green-700 max-w-7xl w-full">
+          <div className="bg-gradient-to-r from-blue-300 to-pink-300 max-w-7xl w-full">
             <div className="px-4 sm:px-6 lg:px-8">
               <Footer />
             </div>
