@@ -62,16 +62,7 @@ export function MenuResponsivo() {
               <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 <li>
                   <a
-                    href="#"
-                    className="block py-2 pr-4 pl-3 text-white rounded bg-white/20 lg:bg-transparent lg:text-white lg:p-0"
-                    aria-current="page"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="http://localhost:3000/Equipe"
+                    href="/Equipe"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Equipe
@@ -79,7 +70,7 @@ export function MenuResponsivo() {
                 </li>
                 <li>
                   <a
-                    href="http://localhost:3000/Legislacao"
+                    href="/Legislacao"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Legislação
@@ -87,7 +78,7 @@ export function MenuResponsivo() {
                 </li>
                 <li>
                   <a
-                    href="http://localhost:3000/Orientacao"
+                    href="/Orientacao"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Orientações
@@ -95,7 +86,7 @@ export function MenuResponsivo() {
                 </li>
                 <li>
                   <a
-                    href="http://localhost:3000/Artefatos"
+                    href="/Artefatos"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Artefatos
@@ -103,7 +94,7 @@ export function MenuResponsivo() {
                 </li>
                 <li>
                   <a
-                    href="http://localhost:3000/Galeria"
+                    href="/Galeria"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Galeria
@@ -111,7 +102,7 @@ export function MenuResponsivo() {
                 </li>
                 <li>
                   <a
-                    href="http://localhost:3000/contato"
+                    href="/contato"
                     className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
                   >
                     Contato
