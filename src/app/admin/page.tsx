@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 export default function AdminDashboard() {
   const router = useRouter();
 
+  console.log("Página admin carregada");
+
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
@@ -18,7 +20,7 @@ export default function AdminDashboard() {
     }
   };
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">

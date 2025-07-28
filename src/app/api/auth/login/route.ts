@@ -15,12 +15,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    console.log("Tentando login para email:", email);
+
     // Buscar usuário no banco
     const usuario = await prisma.usuarios.findFirst({
       where: {
         email: email.toLowerCase(),
       },
     });
+
+    console.log("Usuário encontrado:", usuario ? "Sim" : "Não");
 
     if (!usuario) {
       return NextResponse.json(
@@ -30,7 +34,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Verificar senha
+    console.log("Verificando senha...");
     const senhaValida = await bcrypt.compare(senha, usuario.senhaHash);
+    console.log("Senha válida:", senhaValida);
 
     if (!senhaValida) {
       return NextResponse.json(
@@ -40,33 +46,31 @@ export async function POST(request: NextRequest) {
     }
 
     // Verificar se o usuário é admin
+    console.log("Role do usuário:", usuario.role);
     if (usuario.role !== "admin") {
+      console.log("Usuário não é admin, negando acesso");
       return NextResponse.json(
         { error: "Acesso negado. Apenas administradores podem fazer login." },
         { status: 403 }
       );
     }
+    console.log("Usuário é admin, permitindo acesso");
 
-    // Gerar token JWT
-    const token = jwt.sign(
-      {
-        userId: usuario.id,
-        email: usuario.email,
-        role: usuario.role,
-      },
-      process.env.JWT_SECRET || "lavi-secret-key",
-      { expiresIn: "24h" }
-    );
+    // Gerar token JWT simples para teste
+    const token = "test-token-" + Date.now();
 
     // Retornar dados do usuário (sem senha) e token
     const { senhaHash: _, ...usuarioSemSenha } = usuario;
 
-    return NextResponse.json({
+    console.log("Gerando resposta de sucesso");
+    const response = NextResponse.json({
       success: true,
       token,
       user: usuarioSemSenha,
       message: "Login realizado com sucesso",
     });
+    console.log("Resposta enviada:", response);
+    return response;
   } catch (error) {
     console.error("Erro no login:", error);
     return NextResponse.json(
