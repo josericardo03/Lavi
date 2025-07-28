@@ -97,7 +97,7 @@ const Form = () => {
               required
               value={formData.nome}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-colors"
             />
           </div>
 
@@ -115,7 +115,7 @@ const Form = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-colors"
             />
           </div>
 
@@ -133,7 +133,7 @@ const Form = () => {
               required
               value={formData.assunto}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-colors"
             />
           </div>
 
@@ -151,7 +151,7 @@ const Form = () => {
               value={formData.descricao}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors resize-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-colors resize-none"
             />
           </div>
 
@@ -170,7 +170,10 @@ const Form = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-3 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors ${
+            style={{
+              background: "linear-gradient(to right, #A4D3FF, #F6A8D7)",
+            }}
+            className={`w-full py-3 px-4 text-white rounded-lg font-medium transition-all duration-300 shadow-lg hover:opacity-80 ${
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
