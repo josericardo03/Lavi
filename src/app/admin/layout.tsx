@@ -15,10 +15,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
-      <body className={`min-h-screen bg-gray-50 ${inter.className}`}>
-        {children}
-      </body>
-    </html>
+    <div className={`min-h-screen bg-gray-50 ${inter.className}`}>
+      {children}
+    </div>
   );
 }

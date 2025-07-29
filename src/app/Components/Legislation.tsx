@@ -2,8 +2,7 @@
 import { useState, useEffect } from "react";
 import { Legislacao } from "@/types/database";
 
-// Define interface for Legislation data
-interface LegislationData {
+interface Legislation {
   id: string;
   title: string;
   content?: string;
@@ -13,152 +12,259 @@ interface LegislationData {
 }
 
 export default function Legislation() {
-  const [legislations, setLegislations] = useState<LegislationData[]>([]);
+  const [legislations, setLegislations] = useState<Legislation[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const itemsPerPage = 3;
   const [totalPages, setTotalPages] = useState(0);
 
-  const itemsPerPage = 3;
-
   useEffect(() => {
-    async function fetchLegislations() {
+    const fetchData = async () => {
       try {
-        setIsLoading(true);
+        setLoading(true);
         const response = await fetch("/api/admin/legislacao");
         if (response.ok) {
           const result = await response.json();
-          console.log(result); // Log para verificar a estrutura da resposta
-
           setLegislations(result);
           setTotalPages(Math.ceil(result.length / itemsPerPage));
         } else {
-          throw new Error("Erro ao buscar legislações");
+          console.error("Erro ao buscar legislações");
         }
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Erro ao buscar legislações:", err);
-        setError(
-          err instanceof Error ? err.message : "Ocorreu um erro desconhecido"
-        );
-        setIsLoading(false);
+      } catch (error) {
+        console.error("Erro ao buscar legislações:", error);
+      } finally {
+        setLoading(false);
       }
-    }
-
-    fetchLegislations();
+    };
+    fetchData();
   }, []);
 
-  // Calcular o índice do primeiro e último item a serem exibidos
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = legislations.slice(indexOfFirstItem, indexOfLastItem);
 
-  if (isLoading) {
-    return <div className="text-center mt-10">Carregando...</div>;
-  }
-
-  if (error) {
+  if (loading) {
     return (
-      <div className="text-center mt-10 text-red-500">
-        <p>Erro ao carregar legislações:</p>
-        <p>{error}</p>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Carregando legislações...</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 mt-5 gap-5 max-w-7xl mx-auto px-2">
-      {currentItems.map((leis) => (
-        <div key={leis.id} className="bg-white rounded-lg shadow-md">
-          <h3 className="text-lg font-bold mb-2 p-4">{leis.title}</h3>
-          <h4 className="text-sm text-gray-600 dark:text-gray-300 p-4">
-            {leis.content}
-          </h4>
-          <div className="p-4">
-            <h4 className="font-bold mb-2">Link Relacionado:</h4>
-            <ul>
-              <li>
-                <a
-                  href={leis.links}
-                  className="text-blue-500 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {leis.links}
-                </a>
-              </li>
-            </ul>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Legislação</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Acesse os documentos legais e regulamentações relacionadas aos
+            ambientes virtuais interativos
+          </p>
         </div>
-      ))}
 
-      {/*  Paginação */}
-      <div className="flex items-center justify-center gap-4 mt-8">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
-            currentPage === 1
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-200 hover:border-purple-300"
-          }`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Anterior
-        </button>
-
-        <div className="flex items-center gap-2">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`w-10 h-10 rounded-full transition-all duration-200 ${
-                currentPage === page
-                  ? "bg-purple-600 text-white"
-                  : "bg-white text-purple-600 hover:bg-purple-50 border border-purple-200 hover:border-purple-300"
-              }`}
+        {/* Legislation Grid */}
+        <div className="space-y-8">
+          {currentItems.map((legislation) => (
+            <div
+              key={legislation.id}
+              className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200"
             >
-              {page}
-            </button>
+              <div className="p-8">
+                {/* Header */}
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                      {legislation.title}
+                    </h2>
+                    {legislation.content && (
+                      <p className="text-gray-600 leading-relaxed mb-6">
+                        {legislation.content}
+                      </p>
+                    )}
+                  </div>
+                  <div className="ml-6 flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Links Section */}
+                {legislation.links && (
+                  <div className="border-t border-gray-100 pt-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                      <svg
+                        className="w-5 h-5 mr-2 text-blue-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                        />
+                      </svg>
+                      Links Relacionados
+                    </h3>
+                    <div className="space-y-3">
+                      {legislation.links.split(",").map((link, index) => {
+                        const trimmedLink = link.trim();
+                        const domain = new URL(trimmedLink).hostname;
+                        return (
+                          <a
+                            key={index}
+                            href={trimmedLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center p-3 bg-gray-50 hover:bg-blue-50 rounded-lg transition-all duration-200 group/link"
+                          >
+                            <svg
+                              className="w-5 h-5 text-gray-400 mr-3 group-hover/link:text-blue-600 transition-colors"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                            <span className="text-blue-600 hover:text-blue-700 font-medium group-hover/link:underline">
+                              {domain}
+                            </span>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           ))}
         </div>
 
-        <button
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          disabled={currentPage === totalPages}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
-            currentPage === totalPages
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border border-purple-200 hover:border-purple-300"
-          }`}
-        >
-          Próxima
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-12">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                currentPage === 1
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 border border-blue-200 hover:border-blue-300 shadow-sm"
+              }`}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Anterior
+            </button>
+
+            <div className="flex gap-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                      currentPage === page
+                        ? "bg-blue-600 text-white shadow-md"
+                        : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                currentPage === totalPages
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 border border-blue-200 hover:border-blue-300 shadow-sm"
+              }`}
+            >
+              Próxima
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {legislations.length === 0 && (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-12 h-12 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Nenhuma legislação encontrada
+            </h3>
+            <p className="text-gray-600">
+              Os documentos legais serão disponibilizados em breve.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
