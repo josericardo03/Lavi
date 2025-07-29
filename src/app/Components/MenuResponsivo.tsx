@@ -17,7 +17,13 @@ export function MenuResponsivo() {
         <nav className="bg-gradient-to-r from-blue-300 to-pink-300 px-4 lg:px-6 py-2.5 rounded-lg">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <Link href="/" className="font-bold text-3xl text-white">
-              La<span className="text-white">Vi</span>
+              <Image
+                src="/LOGO-LAVI-FUNDOTRANSPARENTE.png"
+                alt="Logo LAVI"
+                width={100}
+                height={50}
+                className="object-contain"
+              />
             </Link>
 
             <div className="flex items-center lg:order-2">
