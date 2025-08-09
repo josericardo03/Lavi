@@ -1,29 +1,28 @@
-// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model Equipe {
-  id          String   @id @default(cuid())
-  nome        String
-  descricao   String?
-  tipo        String?
-  email       String?
-  foto        String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  nome      String
+  descricao String?
+  tipo      String?
+  email     String?
+  foto      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("equipe")
 }
 
 model Galeria {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   descricao   String?
   date        DateTime?
@@ -31,8 +30,8 @@ model Galeria {
   imageAlt    String?
   imageWidth  Int?
   imageHeight Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("galeria")
 }
@@ -83,27 +82,65 @@ model Contatos {
 }
 
 model Usuarios {
-  id         String   @id @default(cuid())
-  nome       String
-  email      String   @unique
-  senhaHash  String
-  role       String   @default("admin")
-  ativo      Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  nome      String
+  email     String   @unique
+  senhaHash String
+  role      String   @default("admin")
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("usuarios")
 }
 
 model Uploads {
-  id            String   @id @default(cuid())
-  nomeOriginal  String
-  nomeArquivo   String
-  caminho       String
-  tipo          String?
-  tamanho       Int?
-  mimeType      String?
-  createdAt     DateTime @default(now())
+  id           String   @id @default(cuid())
+  nomeOriginal String
+  nomeArquivo  String
+  caminho      String
+  tipo         String?
+  tamanho      Int?
+  mimeType     String?
+  createdAt    DateTime @default(now())
 
   @@map("uploads")
-} 
+}
+
+model projetos {
+  id            String    @id @db.VarChar(255)
+  nome          String    @db.VarChar(500)
+  nome_completo String?
+  ano           Int
+  descricao     String?
+  participantes String?
+  status        String?   @default("ativo") @db.VarChar(100)
+  imagem        String?   @db.VarChar(500)
+  link_externo  String?   @db.VarChar(500)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model publicacoes {
+  id                String    @id @db.VarChar(255)
+  titulo            String    @db.VarChar(500)
+  autores           String?
+  ano               Int
+  revista_periodico String?   @db.VarChar(500)
+  doi               String?   @db.VarChar(255)
+  link_externo      String?   @db.VarChar(500)
+  resumo            String?
+  tipo              String?   @default("artigo") @db.VarChar(100)
+  created_at        DateTime? @default(now()) @db.Timestamp(6)
+  updated_at        DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model sobre {
+  id               String    @id @db.VarChar(255)
+  titulo           String    @db.VarChar(255)
+  descricao        String?
+  conteudo         String?
+  imagem_principal String?   @db.VarChar(500)
+  created_at       DateTime? @default(now()) @db.Timestamp(6)
+  updated_at       DateTime? @default(now()) @db.Timestamp(6)
+}
