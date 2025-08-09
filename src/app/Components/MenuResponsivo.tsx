@@ -13,15 +13,25 @@ export function MenuResponsivo() {
 
   return (
     <>
-      <header className=" shadow-lg max-w-7xl mx-auto mt-10 ">
-        <nav className="bg-gradient-to-r from-blue-300 to-pink-300 px-4 lg:px-6 py-2.5 rounded-lg">
+      <header className="shadow-lg max-w-7xl mx-auto mt-10">
+        <nav className="bg-white px-4 lg:px-6 py-3 rounded-lg border border-[#262278]/20 shadow-sm">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-            <Link href="/" className="font-bold text-3xl text-white">
+            <Link
+              href="/"
+              className="font-bold text-3xl flex items-center gap-4"
+            >
               <Image
                 src="/LOGO-LAVI-FUNDOTRANSPARENTE.png"
                 alt="Logo LAVI"
-                width={100}
-                height={50}
+                width={80}
+                height={40}
+                className="object-contain"
+              />
+              <Image
+                src="/logoprivacidade.svg"
+                alt="Logo Privacidade"
+                width={50}
+                height={35}
                 className="object-contain"
               />
             </Link>
@@ -30,7 +40,7 @@ export function MenuResponsivo() {
               <button
                 onClick={toggleMenu}
                 type="button"
-                className="inline-flex items-center p-2 ml-1 text-sm text-white rounded-lg lg:hidden hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="inline-flex items-center p-2 ml-1 text-sm text-[#262278] rounded-lg lg:hidden hover:bg-[#262278]/5 focus:outline-none focus:ring-2 focus:ring-[#262278]/20 transition-colors"
               >
                 <span className="sr-only">Open main menu</span>
                 <svg
@@ -65,11 +75,11 @@ export function MenuResponsivo() {
               } justify-between items-center w-full lg:flex lg:w-auto lg:order-1`}
               id="mobile-menu-2"
             >
-              <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+              <ul className="flex flex-col mt-3 font-medium lg:flex-row lg:space-x-6 lg:mt-0">
                 <li>
                   <a
                     href="/sobre"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Sobre
                   </a>
@@ -77,7 +87,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/projetos"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Projetos
                   </a>
@@ -85,7 +95,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/publicacoes"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Publicações
                   </a>
@@ -93,7 +103,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/Equipe"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Equipe
                   </a>
@@ -101,7 +111,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/Legislacao"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Legislação
                   </a>
@@ -109,7 +119,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/Orientacao"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Orientações
                   </a>
@@ -117,7 +127,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/Artefatos"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Artefatos
                   </a>
@@ -125,7 +135,7 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/Galeria"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Galeria
                   </a>
@@ -133,9 +143,30 @@ export function MenuResponsivo() {
                 <li>
                   <a
                     href="/contato"
-                    className="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-white/10 lg:hover:bg-transparent lg:border-0 lg:hover:text-white lg:p-0"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm"
                   >
                     Contato
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:lavi.ic.ufmt@gmail.com"
+                    className="block py-2 pr-3 pl-3 text-[#262278] border-b border-gray-100 hover:bg-[#262278]/5 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#262278] lg:p-0 transition-colors text-sm flex items-center"
+                  >
+                    <svg
+                      className="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
+                    </svg>
+                    Email
                   </a>
                 </li>
               </ul>

@@ -33,15 +33,12 @@ export default function RootLayout({
           </div>
         </main>
 
-        {/* Footer com degradê azul para rosa */}
-
-        <div className="flex justify-center w-full">
-          <div className="bg-gradient-to-r from-blue-300 to-pink-300 max-w-7xl w-full">
-            <div className="px-4 sm:px-6 lg:px-8">
-              <Footer />
-            </div>
+        {/* Footer com mesma estrutura do header */}
+        <footer className="w-full bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <Footer />
           </div>
-        </div>
+        </footer>
       </body>
     </html>
   );
