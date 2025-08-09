@@ -133,6 +133,7 @@ model publicacoes {
   tipo              String?   @default("artigo") @db.VarChar(100)
   created_at        DateTime? @default(now()) @db.Timestamp(6)
   updated_at        DateTime? @default(now()) @db.Timestamp(6)
+  imagem            String?   @db.VarChar(500)
 }
 
 model sobre {
