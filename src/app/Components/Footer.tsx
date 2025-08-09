@@ -17,6 +17,27 @@ export const Footer = () => {
         </span>
         <ul className="flex items-center gap-6 text-sm font-medium text-white">
           <li>
+            <Link href="/sobre" className="hover:underline transition-colors">
+              Sobre
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/projetos"
+              className="hover:underline transition-colors"
+            >
+              Projetos
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/publicacoes"
+              className="hover:underline transition-colors"
+            >
+              Publicações
+            </Link>
+          </li>
+          <li>
             <Link href="/Equipe" className="hover:underline transition-colors">
               Equipe
             </Link>
