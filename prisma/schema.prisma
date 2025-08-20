@@ -9,100 +9,100 @@ datasource db {
 }
 
 model Equipe {
-  id        String   @id @default(cuid())
-  nome      String
+  id        String    @id @default(cuid()) @db.VarChar(255)
+  nome      String    @db.VarChar(255)
   descricao String?
-  tipo      String?
-  email     String?
-  foto      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  tipo      String?   @db.VarChar(255)
+  email     String?   @db.VarChar(255)
+  foto      String?   @db.VarChar(500)
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@map("equipe")
 }
 
 model Galeria {
-  id          String    @id @default(cuid())
-  title       String
+  id          String    @id @default(cuid()) @db.VarChar(255)
+  title       String    @db.VarChar(255)
   descricao   String?
-  date        DateTime?
-  imageUrl    String?
-  imageAlt    String?
+  date        DateTime? @db.Timestamp(6)
+  imageUrl    String?   @db.VarChar(500)
+  imageAlt    String?   @db.VarChar(255)
   imageWidth  Int?
   imageHeight Int?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@map("galeria")
 }
 
 model Legislacao {
-  id        String   @id @default(cuid())
-  title     String
+  id        String    @id @default(cuid()) @db.VarChar(255)
+  title     String    @db.VarChar(255)
   content   String?
   links     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@map("legislacao")
 }
 
 model Orientacao {
-  id        String   @id @default(cuid())
-  title     String
+  id        String    @id @default(cuid()) @db.VarChar(255)
+  title     String    @db.VarChar(255)
   content   String?
   links     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@map("orientacao")
 }
 
 model Artefatos {
-  id        String   @id @default(cuid())
-  title     String
+  id        String    @id @default(cuid()) @db.VarChar(255)
+  title     String    @db.VarChar(255)
   content   String?
   links     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@map("artefatos")
 }
 
 model Contatos {
-  id        String   @id @default(cuid())
-  nome      String
-  email     String
-  assunto   String?
+  id        String    @id @default(cuid()) @db.VarChar(255)
+  nome      String    @db.VarChar(255)
+  email     String    @db.VarChar(255)
+  assunto   String?   @db.VarChar(255)
   descricao String?
-  status    String   @default("novo")
-  createdAt DateTime @default(now())
+  status    String?   @default("novo") @db.VarChar(100)
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
 
   @@map("contatos")
 }
 
 model Usuarios {
-  id        String   @id @default(cuid())
-  nome      String
-  email     String   @unique
-  senhaHash String
-  role      String   @default("admin")
-  ativo     Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(cuid()) @db.VarChar(255)
+  nome      String    @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  senhaHash String    @db.VarChar(255)
+  role      String?   @default("admin") @db.VarChar(100)
+  ativo     Boolean?  @default(true)
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @db.Timestamp(6)
 
   @@map("usuarios")
 }
 
 model Uploads {
-  id           String   @id @default(cuid())
-  nomeOriginal String
-  nomeArquivo  String
-  caminho      String
-  tipo         String?
+  id           String    @id @default(cuid()) @db.VarChar(255)
+  nomeOriginal String    @db.VarChar(255)
+  nomeArquivo  String    @db.VarChar(255)
+  caminho      String    @db.VarChar(500)
+  tipo         String?   @db.VarChar(100)
   tamanho      Int?
-  mimeType     String?
-  createdAt    DateTime @default(now())
+  mimeType     String?   @db.VarChar(100)
+  createdAt    DateTime? @default(now()) @db.Timestamp(6)
 
   @@map("uploads")
 }
@@ -110,7 +110,7 @@ model Uploads {
 model projetos {
   id            String    @id @db.VarChar(255)
   nome          String    @db.VarChar(500)
-  nome_completo String?
+  nome_completo String?   @db.VarChar(500)
   ano           Int
   descricao     String?
   participantes String?
