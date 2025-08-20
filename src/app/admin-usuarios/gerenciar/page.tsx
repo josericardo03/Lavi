@@ -8,7 +8,6 @@ interface Usuario {
   id: string;
   nome: string;
   email: string;
-  role: string;
   ativo: boolean;
   createdAt: string;
 }
@@ -19,6 +18,14 @@ function GerenciarUsuariosContent() {
   const [erro, setErro] = useState("");
   const [editando, setEditando] = useState<string | null>(null);
   const [usuarioEditando, setUsuarioEditando] = useState<Partial<Usuario>>({});
+  const [mostrarModalCriar, setMostrarModalCriar] = useState(false);
+  const [novoUsuario, setNovoUsuario] = useState({
+    nome: "",
+    email: "",
+    role: "admin",
+    ativo: true,
+    senha: "",
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -95,12 +102,69 @@ function GerenciarUsuariosContent() {
 
   const handleLogout = async () => {
     try {
+      console.log("Iniciando logout...");
+
       // Fazer logout removendo o cookie
-      await fetch("/api/admin/usuarios/logout", { method: "POST" });
-      router.push("/admin-usuarios");
+      const response = await fetch("/api/admin/usuarios/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        // Cookie removido com sucesso, redirecionar para login
+        console.log("Logout realizado com sucesso, redirecionando...");
+
+        // Aguardar um pouco para garantir que o cookie seja removido
+        setTimeout(() => {
+          router.push("/admin-usuarios");
+        }, 100);
+      } else {
+        console.error("Erro ao fazer logout:", response.statusText);
+      }
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
+  };
+
+  const handleCriarUsuario = async () => {
+    try {
+      const response = await fetch("/api/admin/usuarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(novoUsuario),
+      });
+
+      if (response.ok) {
+        setMostrarModalCriar(false);
+        setNovoUsuario({
+          nome: "",
+          email: "",
+          role: "admin",
+          ativo: true,
+          senha: "",
+        });
+        carregarUsuarios();
+        setErro("");
+      } else {
+        const data = await response.json();
+        setErro(data.message || "Erro ao criar usuário");
+      }
+    } catch (error) {
+      setErro("Erro ao criar usuário");
+    }
+  };
+
+  const limparModalCriar = () => {
+    setNovoUsuario({
+      nome: "",
+      email: "",
+      role: "admin",
+      ativo: true,
+      senha: "",
+    });
+    setMostrarModalCriar(false);
+    setErro("");
   };
 
   if (carregando) {
@@ -121,6 +185,12 @@ function GerenciarUsuariosContent() {
                 Gerenciar Usuários
               </h1>
               <div className="flex space-x-2">
+                <button
+                  onClick={() => setMostrarModalCriar(true)}
+                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
+                >
+                  + Criar Usuário
+                </button>
                 <button
                   onClick={() => router.push("/admin-usuarios")}
                   className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
@@ -152,9 +222,7 @@ function GerenciarUsuariosContent() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Email
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Função
-                    </th>
+
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
@@ -204,27 +272,7 @@ function GerenciarUsuariosContent() {
                           </div>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {editando === usuario.id ? (
-                          <select
-                            value={usuarioEditando.role || ""}
-                            onChange={(e) =>
-                              setUsuarioEditando({
-                                ...usuarioEditando,
-                                role: e.target.value,
-                              })
-                            }
-                            className="border border-gray-300 rounded-md px-3 py-2 w-full"
-                          >
-                            <option value="admin">Admin</option>
-                            <option value="usuario">Usuário</option>
-                          </select>
-                        ) : (
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                            {usuario.role}
-                          </span>
-                        )}
-                      </td>
+
                       <td className="px-6 py-4 whitespace-nowrap">
                         {editando === usuario.id ? (
                           <select
@@ -293,6 +341,111 @@ function GerenciarUsuariosContent() {
           </div>
         </div>
       </div>
+
+      {/* Modal para criar usuário */}
+      {mostrarModalCriar && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Criar Novo Usuário
+              </h3>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Nome *
+                  </label>
+                  <input
+                    type="text"
+                    value={novoUsuario.nome}
+                    onChange={(e) =>
+                      setNovoUsuario({ ...novoUsuario, nome: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Nome completo"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    value={novoUsuario.email}
+                    onChange={(e) =>
+                      setNovoUsuario({ ...novoUsuario, email: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="email@exemplo.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Senha *
+                  </label>
+                  <input
+                    type="password"
+                    value={novoUsuario.senha}
+                    onChange={(e) =>
+                      setNovoUsuario({ ...novoUsuario, senha: e.target.value })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Senha"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <select
+                    value={novoUsuario.ativo.toString()}
+                    onChange={(e) =>
+                      setNovoUsuario({
+                        ...novoUsuario,
+                        ativo: e.target.value === "true",
+                      })
+                    }
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="true">Ativo</option>
+                    <option value="false">Inativo</option>
+                  </select>
+                </div>
+              </div>
+
+              {erro && (
+                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                  {erro}
+                </div>
+              )}
+
+              <div className="flex justify-end space-x-3 mt-6">
+                <button
+                  onClick={limparModalCriar}
+                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleCriarUsuario}
+                  disabled={
+                    !novoUsuario.nome ||
+                    !novoUsuario.email ||
+                    !novoUsuario.senha
+                  }
+                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Criar Usuário
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

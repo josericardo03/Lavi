@@ -8,12 +8,17 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    // Remover o cookie de autenticação
+    // Remover o cookie de autenticação - método mais compatível
+    response.cookies.delete("admin-authenticated");
+
+    // Também definir como vazio para garantir compatibilidade
     response.cookies.set("admin-authenticated", "", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 0, // Expira imediatamente
+      maxAge: 0,
+      expires: new Date(0),
+      path: "/",
     });
 
     return response;

@@ -69,6 +69,16 @@ export async function POST(request: NextRequest) {
       user: usuarioSemSenha,
       message: "Login realizado com sucesso",
     });
+
+    // Definir cookie de autenticação
+    response.cookies.set("adminToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24, // 24 horas
+      path: "/",
+    });
+
     console.log("Resposta enviada:", response);
     return response;
   } catch (error) {

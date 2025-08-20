@@ -24,11 +24,17 @@ ADMIN_SENHA=sua_senha_secreta_aqui
 
 Após fazer login, você será redirecionado para `/admin-usuarios/gerenciar` onde poderá:
 
+- **Criar** novos usuários com:
+  - Nome completo
+  - Email único
+  - Senha segura
+  - **Função sempre como admin**
+  - Status (ativo ou inativo)
 - **Visualizar** todos os usuários cadastrados
 - **Editar** informações dos usuários:
   - Nome
   - Email
-  - Função (admin ou usuário)
+  - **Função (sempre admin)**
   - Status (ativo ou inativo)
 - **Excluir** usuários (com confirmação)
 
@@ -38,8 +44,10 @@ Após fazer login, você será redirecionado para `/admin-usuarios/gerenciar` on
 
 - Autenticação por senha armazenada em variável de ambiente
 - Cookies de sessão para manter o usuário logado
-- **Proteção de rotas**: Página de gerenciamento só acessível após login
+- **Proteção total de rotas**: Todas as páginas de admin só acessíveis após login
+- **Middleware de segurança**: Proteção em nível de servidor para todas as rotas admin
 - **Redirecionamento automático**: Usuários não autenticados são redirecionados para login
+- **Prevenção de acesso direto**: Tentativas de acessar rotas protegidas são bloqueadas
 - Validação de dados antes de salvar
 - Verificação de email único
 - **Logout seguro**: Remove cookies de autenticação
@@ -47,17 +55,23 @@ Após fazer login, você será redirecionado para `/admin-usuarios/gerenciar` on
 ### Interface
 
 - Design responsivo com Tailwind CSS
+- **Modal para criar usuários** com formulário completo
 - Tabela organizada com todas as informações dos usuários
 - Edição inline para facilitar as alterações
 - Confirmação antes de excluir usuários
+- **Validação em tempo real** dos campos obrigatórios
 
 ## Estrutura dos arquivos
 
 ```
-src/app/admin-usuarios/
-├── page.tsx                    # Página de login
-└── gerenciar/
-    └── page.tsx               # Página de gerenciamento
+src/
+├── middleware.ts              # Middleware de proteção global
+└── app/admin-usuarios/
+    ├── page.tsx              # Página de login
+    ├── ProtectedLogin.tsx    # Componente de proteção do login
+    └── gerenciar/
+        ├── page.tsx          # Página de gerenciamento
+        └── ProtectedRoute.tsx # Componente de proteção da rota
 
 src/app/api/admin/usuarios/
 ├── route.ts                   # API para listar usuários

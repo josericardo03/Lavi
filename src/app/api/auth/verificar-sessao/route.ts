@@ -3,15 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     // Verificar se existe o cookie de autenticação
-    const adminCookie = request.cookies.get("admin-authenticated");
+    const adminToken = request.cookies.get("adminToken");
 
-    // Verificação mais rigorosa
-    if (
-      !adminCookie ||
-      adminCookie.value !== "true" ||
-      adminCookie.value === "" ||
-      adminCookie.value === "false"
-    ) {
+    // Verificação rigorosa do cookie
+    if (!adminToken || adminToken.value === "") {
       return NextResponse.json({ message: "Não autenticado" }, { status: 401 });
     }
 

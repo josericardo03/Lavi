@@ -21,6 +21,7 @@ export default function LoginPage() {
 
       if (res.ok) {
         // Redirecionar imediatamente
+        console.log("Login realizado com sucesso, redirecionando para /admin");
         window.location.href = "/admin";
       } else {
         setError(data.error || "Erro ao fazer login");

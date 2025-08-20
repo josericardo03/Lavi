@@ -1,20 +1,35 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
 
-export default function AdminDashboard() {
+function AdminDashboardContent() {
   const router = useRouter();
 
   console.log("Página admin carregada");
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
-      localStorage.removeItem("adminToken");
-      localStorage.removeItem("adminUser");
-      document.cookie =
-        "adminToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      router.push("/login");
+      console.log("Iniciando logout...");
+
+      const response = await fetch("/api/auth/logout", { method: "POST" });
+
+      if (response.ok) {
+        console.log("Logout realizado com sucesso");
+
+        // Limpar localStorage
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUser");
+
+        // Limpar cookie manualmente também
+        document.cookie =
+          "adminToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+        // Redirecionar para login
+        router.push("/login");
+      } else {
+        console.error("Erro ao fazer logout:", response.statusText);
+      }
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
@@ -312,5 +327,13 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <ProtectedAdminRoute>
+      <AdminDashboardContent />
+    </ProtectedAdminRoute>
   );
 }
