@@ -6,6 +6,8 @@ interface ImageUploadProps {
   currentImageUrl?: string;
   label?: string;
   required?: boolean;
+  pageType?: string; // Tipo da página (sobre, projetos, publicacoes, equipe, galeria)
+  showPageTypeSelector?: boolean; // Se deve mostrar o seletor de tipo de página
 }
 
 export default function ImageUpload({
@@ -13,12 +15,15 @@ export default function ImageUpload({
   currentImageUrl,
   label = "Upload de Imagem",
   required = false,
+  pageType = "geral",
+  showPageTypeSelector = false,
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     currentImageUrl || null
   );
+  const [selectedPageType, setSelectedPageType] = useState(pageType);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (
@@ -55,6 +60,7 @@ export default function ImageUpload({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("pageType", selectedPageType);
 
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -91,6 +97,30 @@ export default function ImageUpload({
       <label className="block text-sm font-medium text-gray-700">
         {label} {required && "*"}
       </label>
+
+      {/* Seletor de tipo de página */}
+      {showPageTypeSelector && (
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Tipo de Página
+          </label>
+          <select
+            value={selectedPageType}
+            onChange={(e) => setSelectedPageType(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="sobre">Sobre</option>
+            <option value="projetos">Projetos</option>
+            <option value="publicacoes">Publicações</option>
+            <option value="equipe">Equipe</option>
+            <option value="galeria">Galeria</option>
+            <option value="geral">Geral</option>
+          </select>
+          <p className="text-xs text-gray-500">
+            A imagem será organizada na pasta correspondente com data e mês
+          </p>
+        </div>
+      )}
 
       <div className="space-y-4">
         {/* Preview da imagem */}
@@ -171,8 +201,13 @@ export default function ImageUpload({
 
         {/* Informações adicionais */}
         <p className="text-xs text-gray-500">
-          A imagem será salva localmente no servidor. Formatos aceitos: JPEG,
-          PNG, GIF, WebP. Tamanho máximo: 5MB.
+          A imagem será salva localmente no servidor na pasta:{" "}
+          <strong>
+            uploads/{selectedPageType}/{new Date().getFullYear()}/
+            {String(new Date().getMonth() + 1).padStart(2, "0")}-
+            {new Date().toLocaleString("pt-BR", { month: "long" })}
+          </strong>
+          . Formatos aceitos: JPEG, PNG, GIF, WebP. Tamanho máximo: 5MB.
         </p>
       </div>
     </div>
