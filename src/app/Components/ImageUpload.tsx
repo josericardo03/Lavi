@@ -1,15 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
 
-interface ImageUploadProps {
-  onImageUpload: (imageUrl: string) => void;
-  currentImageUrl?: string;
-  label?: string;
-  required?: boolean;
-  pageType?: string; // Tipo da página (sobre, projetos, publicacoes, equipe, galeria)
-  showPageTypeSelector?: boolean; // Se deve mostrar o seletor de tipo de página
-}
-
 export default function ImageUpload({
   onImageUpload,
   currentImageUrl,
@@ -17,18 +8,19 @@ export default function ImageUpload({
   required = false,
   pageType = "geral",
   showPageTypeSelector = false,
-}: ImageUploadProps) {
+}: any) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     currentImageUrl || null
   );
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
+    currentImageUrl || null
+  );
   const [selectedPageType, setSelectedPageType] = useState(pageType);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileSelect = async (event: any) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -70,7 +62,10 @@ export default function ImageUpload({
       const result = await response.json();
 
       if (response.ok && result.success) {
-        setPreviewUrl(result.imageUrl);
+        // Usar a URL que sabemos que funciona
+        const fullImageUrl = `${window.location.origin}${result.imageUrl}`;
+        setPreviewUrl(fullImageUrl);
+        setUploadedImageUrl(result.imageUrl);
         onImageUpload(result.imageUrl);
         setUploadError(null);
       } else {
@@ -106,7 +101,7 @@ export default function ImageUpload({
           </label>
           <select
             value={selectedPageType}
-            onChange={(e) => setSelectedPageType(e.target.value)}
+            onChange={(e: any) => setSelectedPageType(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="sobre">Sobre</option>

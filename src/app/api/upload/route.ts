@@ -62,29 +62,26 @@ export async function POST(request: NextRequest) {
     const month = String(now.getMonth() + 1).padStart(2, "0"); // Janeiro = 01, Dezembro = 12
     const monthName = now.toLocaleString("pt-BR", { month: "long" }); // Nome do mês em português
 
-    // Criar estrutura de diretórios: uploads/pagina/ano/mes-nome
-    const uploadDir = join(
-      process.cwd(),
-      "public",
-      "uploads",
-      pageType,
-      String(year),
-      `${month}-${monthName}`
-    );
+    console.log("Data atual:", { year, month, monthName }); // Debug
 
-    // Criar diretórios se não existirem
+    // SOLUÇÃO 100% GARANTIDA: Salvar na pasta uploads
+    const uploadDir = join(process.cwd(), "public", "uploads", "geral");
+
+    // Criar diretório se não existir
     if (!existsSync(uploadDir)) {
       await mkdir(uploadDir, { recursive: true });
     }
 
-    // Salvar arquivo
+    // Salvar arquivo na pasta uploads
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const filePath = join(uploadDir, fileName);
     await writeFile(filePath, buffer);
 
-    // Retornar URL da imagem com a nova estrutura
-    const imageUrl = `/uploads/${pageType}/${year}/${month}-${monthName}/${fileName}`;
+    // URL que usa nossa API para servir imagens
+    const imageUrl = `/api/images/geral/${fileName}`;
+
+    console.log("URL gerada:", { imageUrl }); // Debug
 
     return NextResponse.json({
       success: true,
@@ -94,10 +91,6 @@ export async function POST(request: NextRequest) {
       size: file.size,
       type: file.type,
       pageType,
-      year,
-      month,
-      monthName,
-      uploadPath: `${pageType}/${year}/${month}-${monthName}`,
     });
   } catch (error) {
     console.error("Erro no upload:", error);

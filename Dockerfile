@@ -30,6 +30,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 
+# Criar pasta de uploads e definir permissões
+RUN mkdir -p /app/public/uploads && chmod 755 /app/public/uploads
+
 # Expor porta
 EXPOSE 3000
 

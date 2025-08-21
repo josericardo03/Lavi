@@ -32,6 +32,8 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=123456782
       - DB_NAME=lavi_db
+    volumes:
+      - ./public:/app/public
     depends_on:
       - postgres
     restart: unless-stopped
@@ -58,3 +60,4 @@ networks:
 
 volumes:
   postgres_data:
+  uploads_data:
