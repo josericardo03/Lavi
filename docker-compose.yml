@@ -26,6 +26,12 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:123456782@postgres:5432/lavi_db
       - DIRECT_URL=postgresql://postgres:123456782@postgres:5432/lavi_db
+      - ADMIN_SENHA=lavi905204
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5433
+      - DB_USER=postgres
+      - DB_PASSWORD=123456782
+      - DB_NAME=lavi_db
     depends_on:
       - postgres
     restart: unless-stopped

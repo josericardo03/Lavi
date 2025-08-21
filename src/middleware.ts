@@ -23,14 +23,22 @@ export function middleware(request: NextRequest) {
       adminCookie.value === "" ||
       adminCookie.value === "false"
     ) {
-      // Se não estiver autenticado, redirecionar para login
-      console.log("Middleware - Redirecionando para admin-usuarios");
-      return NextResponse.redirect(new URL("/admin-usuarios", request.url));
+      // Se não estiver autenticado, redirecionar para gerenciar usuários
+      console.log("Middleware - Redirecionando para gerenciar usuários");
+      return NextResponse.redirect(
+        new URL("/admin-usuarios/gerenciar", request.url)
+      );
     }
+
+    // Se chegou aqui, está autenticado, permitir acesso
+    return NextResponse.next();
   }
 
-  // Verificar se é uma rota de admin (dashboard principal)
-  if (request.nextUrl.pathname.startsWith("/admin")) {
+  // Verificar se é uma rota de admin (dashboard principal) - EXCLUINDO admin-usuarios
+  if (
+    request.nextUrl.pathname.startsWith("/admin") &&
+    !request.nextUrl.pathname.startsWith("/admin-usuarios")
+  ) {
     // Verificar se existe o cookie de autenticação do login
     const adminToken = request.cookies.get("adminToken");
 
