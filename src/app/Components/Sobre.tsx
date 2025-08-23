@@ -103,23 +103,26 @@ export default function Sobre() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Postagem Principal */}
           {postagemPrincipal && (
-            <div className="mb-20">
-              <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+            <div className="mb-20 animate-fade-in">
+              <div
+                className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 hover:shadow-3xl transition-all duration-500 cursor-pointer group transform hover:-translate-y-1"
+                onClick={() => abrirModal(postagemPrincipal)}
+              >
                 {/* Hero Section com Imagem */}
                 {postagemPrincipal.imagem_principal && (
-                  <div className="relative h-96 overflow-hidden">
+                  <div className="relative h-[400px] sm:h-[450px] lg:h-[500px] overflow-hidden bg-gray-100">
                     <img
                       src={postagemPrincipal.imagem_principal}
                       alt={postagemPrincipal.titulo}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                      <h2 className="text-4xl font-bold mb-4 leading-tight">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white">
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 leading-tight">
                         {postagemPrincipal.titulo}
                       </h2>
                       {postagemPrincipal.descricao && (
-                        <p className="text-xl text-gray-200 leading-relaxed">
+                        <p className="text-base sm:text-lg text-gray-200 leading-relaxed max-w-3xl line-clamp-2">
                           {postagemPrincipal.descricao}
                         </p>
                       )}
@@ -143,18 +146,17 @@ export default function Sobre() {
                   {postagemPrincipal.conteudo && (
                     <div className="prose prose-lg max-w-none">
                       <div className="text-gray-700 leading-relaxed text-lg">
-                        {postagemPrincipal.conteudo}
+                        {postagemPrincipal.conteudo.length > 300
+                          ? `${postagemPrincipal.conteudo.substring(0, 300)}...`
+                          : postagemPrincipal.conteudo}
                       </div>
                     </div>
                   )}
                   {/* Botão para expandir */}
                   {postagemPrincipal.conteudo &&
-                    postagemPrincipal.conteudo.length > 200 && (
+                    postagemPrincipal.conteudo.length > 300 && (
                       <div className="mt-8">
-                        <button
-                          onClick={() => abrirModal(postagemPrincipal)}
-                          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        >
+                        <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300 shadow-lg group-hover:shadow-xl">
                           <svg
                             className="w-5 h-5 mr-2"
                             fill="none"
@@ -174,12 +176,12 @@ export default function Sobre() {
                               d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                             />
                           </svg>
-                          Ler Completo
-                        </button>
+                          Clique para ler completo
+                        </div>
                       </div>
                     )}
                   {/* Badge de Postagem Principal */}
-                  <div className="mt-8 flex items-center gap-3">
+                  <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3">
                     <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-semibold rounded-full">
                       <svg
                         className="w-4 h-4 mr-2"
@@ -210,25 +212,26 @@ export default function Sobre() {
 
           {/* Postagens Secundárias */}
           {postagensSecundarias.length > 0 && (
-            <div>
+            <div className="animate-slide-up">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
                 Outras Informações
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {postagensSecundarias.map((postagem) => (
+                {postagensSecundarias.map((postagem, index) => (
                   <div
                     key={postagem.id}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-2 animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                     onClick={() => abrirModal(postagem)}
                   >
                     {postagem.imagem_principal && (
-                      <div className="relative h-48 overflow-hidden">
+                      <div className="relative h-48 sm:h-52 overflow-hidden bg-gray-50">
                         <img
                           src={postagem.imagem_principal}
                           alt={postagem.titulo}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
                       </div>
                     )}
                     <div className="p-6">
@@ -274,27 +277,27 @@ export default function Sobre() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal Melhorado */}
       {modalAberto && postagemSelecionada && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto animate-fade-in">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             {/* Overlay */}
             <div
-              className="fixed inset-0 bg-black bg-opacity-75 transition-opacity"
+              className="fixed inset-0 bg-black bg-opacity-75 transition-opacity backdrop-blur-sm"
               onClick={fecharModal}
             ></div>
 
             {/* Modal */}
-            <div className="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+            <div className="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full mx-4 animate-scale-in">
               {/* Header do Modal */}
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+              <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-6 py-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-white">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white pr-4">
                     {postagemSelecionada.titulo}
                   </h3>
                   <button
                     onClick={fecharModal}
-                    className="text-white hover:text-gray-200 transition-colors"
+                    className="text-white hover:text-gray-200 transition-colors p-2 hover:bg-white/10 rounded-full"
                   >
                     <svg
                       className="w-6 h-6"
@@ -314,33 +317,35 @@ export default function Sobre() {
               </div>
 
               {/* Conteúdo do Modal */}
-              <div className="px-6 py-6">
+              <div className="px-6 py-8">
                 {postagemSelecionada.imagem_principal && (
-                  <div className="mb-6">
-                    <img
-                      src={postagemSelecionada.imagem_principal}
-                      alt={postagemSelecionada.titulo}
-                      className="w-full h-64 object-cover rounded-xl"
-                    />
+                  <div className="mb-8">
+                    <div className="bg-gray-50 rounded-2xl p-4">
+                      <img
+                        src={postagemSelecionada.imagem_principal}
+                        alt={postagemSelecionada.titulo}
+                        className="w-full h-auto max-h-96 object-contain object-center rounded-xl shadow-lg mx-auto"
+                      />
+                    </div>
                   </div>
                 )}
 
                 {postagemSelecionada.descricao && (
-                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                  <p className="text-lg sm:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                     {postagemSelecionada.descricao}
                   </p>
                 )}
 
                 {postagemSelecionada.conteudo && (
                   <div className="prose prose-lg max-w-none">
-                    <div className="text-gray-700 leading-relaxed">
+                    <div className="text-gray-700 leading-relaxed text-base sm:text-lg">
                       {postagemSelecionada.conteudo}
                     </div>
                   </div>
                 )}
 
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <div className="flex items-center justify-between text-sm text-gray-500">
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm text-gray-500 gap-2">
                     <span>
                       Criado em:{" "}
                       {postagemSelecionada.created_at
@@ -362,10 +367,10 @@ export default function Sobre() {
               </div>
 
               {/* Footer do Modal */}
-              <div className="bg-gray-50 px-6 py-4 flex justify-end">
+              <div className="bg-gray-50 px-6 py-6 flex justify-end">
                 <button
                   onClick={fecharModal}
-                  className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-8 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
                 >
                   Fechar
                 </button>
