@@ -45,12 +45,13 @@ export async function POST(request: NextRequest) {
         { status: 200 }
       );
 
-      // Definir um cookie de sessão (opcional, para maior segurança)
+      // Definir um cookie de sessão com configurações mais permissivas
       response.cookies.set("admin-authenticated", "true", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        httpOnly: false, // Permitir acesso via JavaScript se necessário
+        secure: false, // Permitir HTTP (não apenas HTTPS)
+        sameSite: "lax", // Mais permissivo que "strict"
         maxAge: 60 * 60 * 24, // 24 horas
+        path: "/", // Cookie válido para todo o site
       });
 
       return response;
