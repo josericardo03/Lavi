@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456782
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
       - DIRECT_URL=postgresql://postgres:123456782@postgres:5432/lavi_db
       - ADMIN_SENHA=lavi905204
       - DB_HOST=127.0.0.1
-      - DB_PORT=5433
+      - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=123456782
       - DB_NAME=lavi_db
