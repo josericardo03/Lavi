@@ -23,9 +23,17 @@ export default function AdminUsuariosLogin() {
         body: JSON.stringify({ senha }),
       });
 
+      console.log("📡 Resposta da API:", response.status, response.statusText);
+
       if (response.ok) {
         // Senha correta, redirecionar para a página de administração
-        router.push("/admin-usuarios/gerenciar");
+        console.log("✅ API retornou OK, tentando redirecionar...");
+        try {
+          router.push("/admin-usuarios/gerenciar");
+          console.log("✅ Redirecionamento iniciado");
+        } catch (redirectError) {
+          console.error("❌ Erro no redirecionamento:", redirectError);
+        }
       } else {
         const data = await response.json();
         setErro(data.message || "Senha incorreta");
