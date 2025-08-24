@@ -8,12 +8,10 @@ export async function POST(request: NextRequest) {
     // Se não conseguir ler da variável de ambiente, usar senha padrão como fallback
     const senhaAdmin = process.env.ADMIN_SENHA || "lavi905205";
 
-    if (!senhaAdmin) {
-      return NextResponse.json(
-        { message: "Senha de administrador não configurada" },
-        { status: 500 }
-      );
-    }
+    // Log para debug
+    console.log("Senha recebida:", senha);
+    console.log("ADMIN_SENHA env:", process.env.ADMIN_SENHA);
+    console.log("Senha admin final:", senhaAdmin);
 
     if (senha === senhaAdmin) {
       // Senha correta - criar uma sessão ou token
