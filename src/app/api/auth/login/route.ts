@@ -70,13 +70,13 @@ export async function POST(request: NextRequest) {
       message: "Login realizado com sucesso",
     });
 
-    // Definir cookie de autenticação
+    // Definir cookie de autenticação com configurações mais permissivas
     response.cookies.set("adminToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      httpOnly: false, // Permitir acesso via JavaScript se necessário
+      secure: false, // Permitir HTTP (não apenas HTTPS)
+      sameSite: "lax", // Mais permissivo que "strict"
       maxAge: 60 * 60 * 24, // 24 horas
-      path: "/",
+      path: "/", // Cookie válido para todo o site
     });
 
     console.log("Resposta enviada:", response);

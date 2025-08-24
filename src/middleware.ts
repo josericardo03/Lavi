@@ -42,15 +42,22 @@ export function middleware(request: NextRequest) {
     // Verificar se existe o cookie de autenticação do login
     const adminToken = request.cookies.get("adminToken");
 
-    // Log para debug
-    console.log("Middleware - Cookie admin:", adminToken?.value);
+    // Log para debug mais detalhado
+    console.log("=== MIDDLEWARE DEBUG ===");
     console.log("Middleware - Rota admin:", request.nextUrl.pathname);
+    console.log("Middleware - Cookie admin:", adminToken?.value);
+    console.log("Middleware - Todos os cookies:", request.cookies.getAll());
+    console.log("Middleware - URL completa:", request.url);
 
     // Se não estiver autenticado, redirecionar para login
     if (!adminToken || adminToken.value === "") {
-      console.log("Middleware - Redirecionando para login");
+      console.log(
+        "Middleware - Redirecionando para login (cookie não encontrado)"
+      );
       return NextResponse.redirect(new URL("/login", request.url));
     }
+
+    console.log("Middleware - Cookie válido, permitindo acesso");
   }
 
   return NextResponse.next();
