@@ -10,10 +10,35 @@ export async function POST(request: NextRequest) {
     // Log para debug
     console.log("=== DEBUG VERIFICAR SENHA ===");
     console.log("Senha recebida:", senha);
+    console.log("Tipo da senha recebida:", typeof senha);
     console.log("ADMIN_SENHA env:", process.env.ADMIN_SENHA);
     console.log("Senhas válidas:", senhasValidas);
 
-    if (senhasValidas.includes(senha)) {
+    // Verificação passo a passo
+    let senhaIncluida = false;
+    try {
+      console.log(
+        "1. Verificando se senha é string:",
+        typeof senha === "string"
+      );
+      console.log(
+        "2. Verificando se senha não é undefined:",
+        senha !== undefined
+      );
+      console.log("3. Verificando se senha não é null:", senha !== null);
+
+      senhaIncluida = senhasValidas.includes(senha);
+      console.log("4. Resultado do includes:", senhaIncluida);
+    } catch (error) {
+      console.error("❌ ERRO na verificação:", error);
+      return NextResponse.json(
+        { message: "Erro na verificação da senha" },
+        { status: 500 }
+      );
+    }
+
+    if (senhaIncluida) {
+      console.log("✅ Senha CORRETA! Redirecionando...");
       // Senha correta - criar uma sessão ou token
       const response = NextResponse.json(
         { message: "Senha correta" },
