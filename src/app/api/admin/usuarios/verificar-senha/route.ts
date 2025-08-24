@@ -4,16 +4,16 @@ export async function POST(request: NextRequest) {
   try {
     const { senha } = await request.json();
 
-    // Verificar se a senha fornecida corresponde à senha da variável de ambiente
-    // Se não conseguir ler da variável de ambiente, usar senha padrão como fallback
-    const senhaAdmin = process.env.ADMIN_SENHA || "lavi905205";
+    // Senhas válidas - aceitar ambas independente da variável de ambiente
+    const senhasValidas = ["lavi905204", "lavi905205"];
 
     // Log para debug
+    console.log("=== DEBUG VERIFICAR SENHA ===");
     console.log("Senha recebida:", senha);
     console.log("ADMIN_SENHA env:", process.env.ADMIN_SENHA);
-    console.log("Senha admin final:", senhaAdmin);
+    console.log("Senhas válidas:", senhasValidas);
 
-    if (senha === senhaAdmin) {
+    if (senhasValidas.includes(senha)) {
       // Senha correta - criar uma sessão ou token
       const response = NextResponse.json(
         { message: "Senha correta" },
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
 
       return response;
     } else {
+      console.log("❌ Senha incorreta. Senha recebida:", senha);
       return NextResponse.json({ message: "Senha incorreta" }, { status: 401 });
     }
   } catch (error) {
