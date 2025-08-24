@@ -9,6 +9,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
+    // Se for a rota de gerenciar usuários, permitir acesso (evita loop)
+    if (request.nextUrl.pathname === "/admin-usuarios/gerenciar") {
+      return NextResponse.next();
+    }
+
     // Para outras rotas de admin-usuarios, verificar autenticação
     const adminCookie = request.cookies.get("admin-authenticated");
 
@@ -16,13 +21,8 @@ export function middleware(request: NextRequest) {
     console.log("Middleware - Cookie admin-usuarios:", adminCookie?.value);
     console.log("Middleware - Rota:", request.nextUrl.pathname);
 
-    // Verificação mais rigorosa do cookie
-    if (
-      !adminCookie ||
-      adminCookie.value !== "true" ||
-      adminCookie.value === "" ||
-      adminCookie.value === "false"
-    ) {
+    // Verificação simplificada do cookie
+    if (!adminCookie || adminCookie.value !== "true") {
       // Se não estiver autenticado, redirecionar para gerenciar usuários
       console.log("Middleware - Redirecionando para gerenciar usuários");
       return NextResponse.redirect(
