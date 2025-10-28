@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ImageUpload from "../../Components/ImageUpload";
+import RichTextEditor from "../../Components/RichTextEditor";
 
 interface SobreData {
   id: string;
@@ -149,11 +150,12 @@ export default function AdminSobre() {
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 mb-8 text-white">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold mb-3">Gerenciar Sobre</h1>
+              <h1 className="text-4xl font-bold mb-3">Gerenciar Notícias</h1>
               <p className="text-blue-100 text-lg leading-relaxed max-w-2xl">
-                Crie e gerencie múltiplas postagens sobre sua organização. A
-                primeira postagem será exibida como destaque principal na página
-                pública.
+                Crie e gerencie notícias com conteúdo rico. As 6 primeiras
+                notícias aparecerão na página inicial em formato de grid 2x3.
+                Use o editor para adicionar imagens, tabelas e formatação
+                avançada.
               </p>
             </div>
             <Link
@@ -198,12 +200,12 @@ export default function AdminSobre() {
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
-                {editingId ? "Editar Entrada" : "Nova Entrada"}
+                {editingId ? "Editar Notícia" : "Nova Notícia"}
               </h2>
               <p className="text-gray-600 text-sm">
                 {editingId
-                  ? "Atualize as informações da entrada"
-                  : "Crie uma nova entrada sobre sua organização"}
+                  ? "Atualize as informações da notícia"
+                  : "Crie uma nova notícia com conteúdo rico (imagens, tabelas, formatação)"}
               </p>
             </div>
           </div>
@@ -222,7 +224,7 @@ export default function AdminSobre() {
                     setFormData({ ...formData, titulo: e.target.value })
                   }
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                  placeholder="Ex: Nossa História, Missão e Valores"
+                  placeholder="Ex: Novo Projeto de Pesquisa, Evento Realizado, Publicação"
                 />
               </div>
 
@@ -237,7 +239,7 @@ export default function AdminSobre() {
                     setFormData({ ...formData, descricao: e.target.value })
                   }
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                  placeholder="Breve descrição da entrada"
+                  placeholder="Breve resumo que aparecerá no card da notícia"
                 />
               </div>
             </div>
@@ -246,18 +248,18 @@ export default function AdminSobre() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Conteúdo
               </label>
-              <textarea
-                rows={8}
+              <RichTextEditor
                 value={formData.conteudo}
-                onChange={(e) =>
-                  setFormData({ ...formData, conteudo: e.target.value })
+                onChange={(value) =>
+                  setFormData({ ...formData, conteudo: value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-none"
-                placeholder="Conteúdo completo da entrada. Você pode usar HTML para formatação."
+                placeholder="Digite o conteúdo completo da notícia. Use as ferramentas acima para formatar o texto, inserir imagens, links e tabelas."
+                className="border-2 border-gray-300 hover:border-blue-300 focus-within:border-blue-500 transition-colors duration-200"
               />
               <p className="text-xs text-gray-500 mt-2">
-                Dica: Use HTML para formatação (ex: &lt;strong&gt;, &lt;em&gt;,
-                &lt;br&gt;)
+                💡 Use o editor acima para formatar texto com{" "}
+                <strong>negrito</strong>, <em>itálico</em>, inserir imagens,
+                links e tabelas de forma visual.
               </p>
             </div>
 
@@ -287,7 +289,7 @@ export default function AdminSobre() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                {editingId ? "Atualizar Entrada" : "Criar Entrada"}
+                {editingId ? "Atualizar Notícia" : "Criar Notícia"}
               </button>
 
               {editingId && (
